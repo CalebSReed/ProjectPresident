@@ -6,12 +6,16 @@ using System;
 
 public class TurnManager : MonoBehaviour
 {
-    private int currentTurn;
-    [SerializeField]
-    private TextMeshProUGUI turnCounter;
+    [SerializeField] private int currentTurn;
+    [SerializeField] private TextMeshProUGUI turnCounter;
 
     public event EventHandler OnTurnStart;
     public event EventHandler OnTurnEnd;
+
+    private void Start()
+    {
+        StartTurn();
+    }
 
     public void StartTurn()
     {
@@ -21,6 +25,13 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn()
     {
+        currentTurn++;
+        UpdateTurnHUD();
         OnTurnEnd?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    public void UpdateTurnHUD()
+    {
+        turnCounter.text = $"Turn: {currentTurn}";
     }
 }
